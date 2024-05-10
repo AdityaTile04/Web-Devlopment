@@ -71,12 +71,3 @@ The `touch` command is used to create empty files or update timestamps on existi
 ## Deleting Files and Folders
 
 Managing files and directories often involves deleting unwanted or obsolete items. This section covers the `rm` command for deleting files and demonstrates how to remove both individual files and entire directories. Additionally, it discusses precautions and best practices to avoid accidental data loss.
-
-## Contributing
-
-Contributions to this repository are welcome! If you have suggestions for additional terminal commands, flags, or improvements to existing content, feel free to open an issue or submit a pull request.
-
-## License
-
-This repository is licensed under the MIT License, which means you're free to use, modify, and distribute the content for both commercial and non-commercial purposes. However, attribution to the original source is appreciated.
-
