@@ -8,4 +8,8 @@ arr.__proto__.push = (n) => {
   console.log(`Pushing number : ${n}`);
 };
 
-arr.push(3);
+arr.Hello = () => {
+  console.log("Hello");
+};
+
+arr.push(7);
