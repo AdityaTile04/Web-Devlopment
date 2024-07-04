@@ -18,3 +18,24 @@ h1 {
 #content {
   padding-left: 10px;
 }
+
+#new-post {
+  margin: 20px;
+}
+
+#main,
+p {
+  margin-left: 10px;
+}
+
+#post-id {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-left: 10px;
+  background-color: lightgreen;
+  color: blue;
+  margin-bottom: 10px;
+}

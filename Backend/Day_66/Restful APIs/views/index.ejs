@@ -12,7 +12,22 @@
     <div id="main">
       <h3 id="user">@<%= post.username %></h3>
       <h4 id="content"><%= post.content %></h4>
+      <br />
+      <br />
+
+      <a id="post-id" href="http://localhost:3000/posts/<%= post.id %>"
+        >See in detail</a
+      >
+      <a id="post-id" href="http://localhost:3000/posts/<%= post.id %>/edit"
+        >Edit</a
+      >
+      <form  method="post" action="/posts/<%=post.id%>?_method=DELETE">
+        <button>Delete post</button>
+      </form>
     </div>
     <% } %>
+
+    <br /><br />
+    <a id="new-post" href="http://localhost:3000/posts/new">Create New Post</a>
   </body>
 </html>
