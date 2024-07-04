@@ -10,10 +10,25 @@ app.use(express.json());
 app.set("views engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.set(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  res.send("Server working well");
+let posts = [
+  {
+    username: "adityatile",
+    content: "i am fullstack developer",
+  },
+  {
+    username: "rushi123",
+    content: "i am devops engineer",
+  },
+  {
+    username: "gaurav456",
+    content: "i am java fullstack developer",
+  },
+];
+
+app.get("/posts", (req, res) => {
+  res.render("index.ejs", { posts });
 });
 
 app.listen(port, () => {
