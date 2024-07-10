@@ -41,4 +41,3 @@ VALUES
 -- To show table
 SELECT * FROM info;
 
-SHOW TABLES;
