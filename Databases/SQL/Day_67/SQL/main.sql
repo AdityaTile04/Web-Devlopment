@@ -1,3 +1,11 @@
+-- ! Primary key & Foreign key
+
+-- Primary key makes column unique & not null but used only for one.
+-- Foreign key prevent actions that would destroy links between tables.
+
+
+-- ! Example 
+
 CREATE DATABASE facebook;
 
 USE facebook;
@@ -12,7 +20,7 @@ CREATE TABLE user (
 
 INSERT INTO user
 (id,age,name,email)
-VALUES
+VALUES  
 (1,19,"Aditya", "aditya@gmail.com"),
 (2,20,"Saurabh", "saurabh@gmail.com"),
 (3,21, "Rushikesh","rushi@gmail.com");
