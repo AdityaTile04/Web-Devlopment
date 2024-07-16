@@ -29,7 +29,3 @@ WHERE salary <= 80000;
 
 SELECT * FROM employee
 WHERE salary >= 80000;
-
-
-
-
