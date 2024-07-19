@@ -1,10 +1,11 @@
 //! SQL With Node.js
 
-const { faker, tr } = require("@faker-js/faker");
+const { faker } = require("@faker-js/faker");
 const mysql = require("mysql2");
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
+const { v4: uuidv4 } = require("uuid");
 const port = 3000;
 
 const app = express();
@@ -55,7 +56,6 @@ app.get("/user", (req, res) => {
   try {
     connection.query(q, (err, users) => {
       if (err) throw err;
-      // let userData = result[0];
       res.render("user.ejs", { users });
     });
   } catch (err) {
@@ -100,6 +100,69 @@ app.patch("/user/:id", (req, res) => {
     });
   } catch (err) {
     console.log("Some error occurred");
+  }
+});
+
+app.get("/user/new", (req, res) => {
+  res.render("addUser.ejs");
+});
+
+// Add User Route
+app.post("/user/new", (req, res) => {
+  const { username, email, password } = req.body;
+  const id = uuidv4();
+  const q = `INSERT INTO user (id,username,email,password) VALUES ('${id}','${username}',' ${email}', '${password}')`;
+  try {
+    connection.query(q, (err, result) => {
+      if (err) throw err;
+      console.log("New user added");
+      res.redirect("/user");
+    });
+  } catch (err) {
+    res.send("Failed to add user");
+  }
+});
+
+app.get("/user/:id/delete", (req, res) => {
+  const { id } = req.params;
+  const q = `SELECT * FROM user WHERE id='${id}'`;
+  try {
+    connection.query(q, (err, result) => {
+      if (err) throw err;
+      const user = result[0];
+      res.render("delete.ejs", { user });
+    });
+  } catch (err) {
+    res.send("Error while deleting user");
+  }
+});
+
+// Delete Route
+app.delete("/user/:id/", (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+  const q = `SELECT * FROM user WHERE id = '${id}'`;
+  try {
+    connection.query(q, (err, result) => {
+      if (err) throw err;
+      const user = result[0];
+
+      if (user.password != password) {
+        res.send("Wrong password!");
+      } else {
+        const q2 = `DELETE FROM user WHERE id = '${id}'`;
+        connection.query(q2, (err, result) => {
+          if (err) throw err;
+          else {
+            console.log(result);
+            console.log("User deleted");
+            res.redirect("/user");
+          }
+        });
+      }
+    });
+  } catch (err) {
+    res.send("Error while deleting user");
   }
 });
 
