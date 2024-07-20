@@ -63,8 +63,7 @@ app.get("/user", (req, res) => {
   }
 });
 
-// Edit Route
-
+// Edit User Route
 app.get("/user/:id/edit", (req, res) => {
   const { id } = req.params;
   const q = `SELECT * FROM user WHERE id = '${id}'`;
@@ -146,7 +145,7 @@ app.delete("/user/:id/", (req, res) => {
     connection.query(q, (err, result) => {
       if (err) throw err;
       const user = result[0];
-
+      
       if (user.password != password) {
         res.send("Wrong password!");
       } else {
