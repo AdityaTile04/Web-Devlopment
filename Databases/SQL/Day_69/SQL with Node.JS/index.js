@@ -136,7 +136,7 @@ app.get("/user/:id/delete", (req, res) => {
   }
 });
 
-// Delete Route
+// User Delete Route
 app.delete("/user/:id/", (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
