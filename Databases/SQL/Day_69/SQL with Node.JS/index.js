@@ -1,5 +1,4 @@
 //! SQL With Node.js
-
 const { faker } = require("@faker-js/faker");
 const mysql = require("mysql2");
 const express = require("express");
@@ -21,7 +20,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   database: "my_data",
-  password: "aditya",
+  password: "enter your password",
 });
 
 let query = "INSERT INTO user (id,username,email,password) VALUES ?";
