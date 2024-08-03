@@ -1,5 +1,4 @@
 //! SQL With Node.js
-
 const { faker } = require("@faker-js/faker");
 const mysql = require("mysql2");
 const express = require("express");
@@ -21,7 +20,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   database: "my_data",
-  password: "aditya",
+  password: "enter your password",
 });
 
 let query = "INSERT INTO user (id,username,email,password) VALUES ?";
@@ -63,8 +62,7 @@ app.get("/user", (req, res) => {
   }
 });
 
-// Edit Route
-
+// Edit User Route
 app.get("/user/:id/edit", (req, res) => {
   const { id } = req.params;
   const q = `SELECT * FROM user WHERE id = '${id}'`;
@@ -137,7 +135,7 @@ app.get("/user/:id/delete", (req, res) => {
   }
 });
 
-// Delete Route
+// User Delete Route
 app.delete("/user/:id/", (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
@@ -146,7 +144,7 @@ app.delete("/user/:id/", (req, res) => {
     connection.query(q, (err, result) => {
       if (err) throw err;
       const user = result[0];
-
+      
       if (user.password != password) {
         res.send("Wrong password!");
       } else {

@@ -13,7 +13,7 @@
 // Relational Databases (data stored in tables)
 // eg- MySQL,Oracle,PostgreSQL
 
-//! Non Relational Databases
+//! 2. Non Relational Databases
 //! NoSQL
 // Non relational database (data stored in document, key-val, graph etc)
 // eg - MongoDB, Cassandra, Neo4j etc.
