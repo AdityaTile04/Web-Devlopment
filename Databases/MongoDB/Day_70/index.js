@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-async function connection() {
+ async function connection() {
   await mongoose.connect("mongodb://localhost:27017/Delta");
 }
 
@@ -24,6 +24,7 @@ const user1 = new User({ name: "Aditya", email: "aditya@gmail.com", age: 19 });
 const user2 = new User({ name: "Rushi", email: "rushi@gmail.com", age: 20 });
 
 //! Insert only one user at a time
+
 user2
   .save()
   .then((res) => {
@@ -66,7 +67,7 @@ User.updateMany({ age: { $gt: 19 } }, { email: "demo@gmail.com" }).then((res) =>
   console.log(res)
 );
 
-User.findOneAndUpdate({ name: "Adam" }, { age: 30}, { new: true }).then(
+User.findOneAndUpdate({ name: "Adam" }, { age: 30 }, { new: true }).then(
   (res) => {
     console.log(res);
   }
@@ -82,17 +83,17 @@ User.findByIdAndUpdate(
 
 User.deleteOne({ name: "Dominic" }).then((res) => {
   console.log(res);
-})
+});
 
 User.deleteMany({ age: { $gt: 20 } }).then((res) => {
   console.log(res);
 });
 
-
-User.findOneAndDelete({name: 'Alex'}, {new : true}).then((res) => {
+User.findOneAndDelete({ name: "Alex" }, { new: true }).then((res) => {
   console.log(res);
-})
+});
 
-User.findByIdAndDelete('66af72e18ea68a8e6846b799').then((res) => {
+User.findByIdAndDelete("66af72e18ea68a8e6846b799").then((res) => {
   console.log(`User deleted succesfully`);
-})
+});
+
