@@ -36,17 +36,17 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema);
 
-// const book1 = new Book({
-//   title: "Comic book ",
-//   author: "abc",
-//   price: 100,
-//   category: "comedy",
-// });
+const book1 = new Book({
+  title: "Comic book ",
+  author: "abc",
+  price: 100,
+  category: "comedy",
+});
 
-// book1
-//   .save()
-//   .then((res) => console.log("Data added"))
-//   .catch((err) => console.log(err));
+book1
+  .save()
+  .then((res) => console.log("Data added"))
+  .catch((err) => console.log(err));
 
 //! Validation Errors
 
