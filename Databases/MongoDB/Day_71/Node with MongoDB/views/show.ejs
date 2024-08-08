@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Data</title>
+    
+  </head>
+  <body>
+    <h1>All Data</h1>
+    <% for(let data of allData) { %>
+    <div id="data">
+      <p>From:<%= data.from %></p>
+      <div id="msg">
+        <p>Message:<%= data.msg %></p>
+      </div>
+      <p>To: <%= data.to %></p>
+    </div>
+    <hr>
+    <% } %>
+  </body>
+</html>
