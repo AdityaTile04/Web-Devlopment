@@ -4,19 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Data</title>
-    
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>All Data</h1>
+    <form action="/chats/new" method="get">
+      <button>Add Chat</button>
+    </form>
+    <hr />
     <% for(let data of allData) { %>
     <div id="data">
-      <p>From:<%= data.from %></p>
+      <p>From: <b><%= data.from %></b></p>
       <div id="msg">
         <p>Message:<%= data.msg %></p>
+        <form action="/chats/<%= data._id %>/edit" method="get">
+          <button>Edit Chat</button>
+        </form>
       </div>
-      <p>To: <%= data.to %></p>
+      <p>To: <b><%= data.to %></b></p>
+      <p>Date: <b><%= data.created_at.toString().split(" ")[4] %></b></p>
+      <p>
+        <b
+          ><%= data.created_at.toString().split(" ").slice(0, 4).join("-") %></b
+        >
+      </p>
+      <form method="post" action="/chats/<%= data._id %>?_method=DELETE">
+        <button>Delete</button>
+      </form>
     </div>
-    <hr>
+    <hr />
     <% } %>
   </body>
 </html>
