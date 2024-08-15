@@ -2,12 +2,14 @@ const express = require("express");
 const Listing = require("./models/listing");
 const mongoose = require("mongoose");
 const path = require("path");
+const methodOverride = require("method-override");
 const PORT = 4000;
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 
 async function connection() {
@@ -42,8 +44,22 @@ app.get("/listings/:id", async (req, res) => {
 
 // Create Route
 app.post("/listings", async (req, res) => {
-  const newListings = new Listing(req.body);
+  const newListings = new Listing(req.body.listing);
   await newListings.save();
+  res.redirect("/listings");
+});
+
+//Edit Route
+app.get("/listings/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  res.render("listings/edit.ejs", { listing });
+});
+
+// Update Route
+app.put("/listings/:id", async (req, res) => {
+  const { id } = req.body;
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   res.redirect("/listings");
 });
 
