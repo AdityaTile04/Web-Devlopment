@@ -3,6 +3,7 @@ const Listing = require("./models/listing");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 const PORT = 4000;
 
 const app = express();
@@ -11,6 +12,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
 
 async function connection() {
   await mongoose.connect("mongodb://localhost:27017/AirBnb");
@@ -23,6 +26,10 @@ connection()
   .catch((err) => {
     console.log(err);
   });
+
+app.get("/", (req, res) => {
+  res.send("Welcome home");
+});
 
 // Index Route
 app.get("/listings", async (req, res) => {
@@ -68,7 +75,7 @@ app.delete("/listings/:id", async (req, res) => {
   let { id } = req.params;
   const deleteListing = await Listing.findByIdAndDelete(id);
   console.log(deleteListing);
-  res.redirect('/listings')
+  res.redirect("/listings");
 });
 
 app.listen(PORT, (req, res) => {
