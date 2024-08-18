@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AirBnb</title>
-  </head>
-  <body>
-    <h3>Create New Listing</h3>
+<%- layout('/layouts/boilerplate') %>
+<h3>Create New Listing</h3>
+<br />
+<div class="row">
+  <div class="col-8 offset-2">
     <form method="post" action="/listings">
-      <div>
+      <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
           type="text"
@@ -18,7 +14,7 @@
         />
       </div>
 
-      <div>
+      <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea
           type="text"
@@ -27,7 +23,7 @@
         ></textarea>
       </div>
 
-      <div>
+      <div class="mb-3">
         <label for="image" class="form-label">Image Link</label>
         <input
           type="text"
@@ -37,17 +33,29 @@
         />
       </div>
 
-      <div>
-        <label for="price" class="form-label">Price</label>
-        <input
-          type="number"
-          placeholder="enter price"
-          name="listing[price]"
-          class="form-control"
-        />
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price</label>
+          <input
+            type="number"
+            placeholder="enter price"
+            name="listing[price]"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input
+            type="text"
+            placeholder="enter country"
+            name="listing[country]"
+            class="form-control"
+          />
+        </div>
       </div>
 
-      <div>
+      <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
           type="text"
@@ -56,18 +64,10 @@
           class="form-control"
         />
       </div>
+      <br />
 
-      <div>
-        <label for="country" class="form-label">Country</label>
-        <input
-          type="text"
-          placeholder="enter country"
-          name="listing[country]"
-          class="form-control"
-        />
-      </div>
-
-      <button class="btn btn-dark">Add</button>
+      <button class="btn btn-dark add-btn">Add</button>
     </form>
-  </body>
-</html>
+  </div>
+</div>
+<br />
