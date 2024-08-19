@@ -30,7 +30,7 @@ app.listen(PORT, () => {
 
 // example
 
-// app.use((req, res, next) => {
-//   console.log(`hi, i'm middleware 2`);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log(`hi, i'm middleware 2`);
+  next();
+});
