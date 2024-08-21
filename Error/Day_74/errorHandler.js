@@ -24,6 +24,10 @@ app.get("/err", (req, res) => {
   abc = abc;
 });
 
+app.get("/admin", (req, res) => {
+  throw new ExpressError(403, "Only for Admins");
+});
+
 app.use((err, req, res, next) => {
   const { status = 500, message } = err;
   res.status(status).send(message);
