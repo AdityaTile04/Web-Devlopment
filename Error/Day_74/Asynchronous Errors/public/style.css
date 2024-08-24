@@ -1,0 +1,14 @@
+#data {
+  background-color: aquamarine;
+  border: 2px solid black;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+#msg {
+  background-color: rgb(153, 94, 208);
+  color: white;
+  padding: 10px 10px;
+  border-radius: 20px;
+}
