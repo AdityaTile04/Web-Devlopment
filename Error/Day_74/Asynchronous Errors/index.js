@@ -15,6 +15,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 // Error handling middleware
+
+// Handling mongoose errors
+const handleValidationErr = (err) => {
+  console.log("This was a Cast error, please follow rules");
+  console.log(err.message);
+  return err;
+};
+
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === "CastError") {
+    err = handleValidationErr(err);
+  }
+  next(err);
+});
+
 app.use((err, req, res, next) => {
   let { status = 500, message = "Some Error Occured" } = err;
   res.status(status).send(message);
