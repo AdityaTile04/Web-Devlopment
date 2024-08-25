@@ -67,34 +67,43 @@ app.post("/chats", async (req, res, next) => {
   }
 });
 
+// using wrapAsync
+
+function wrapAsync(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch((err) => {
+      next(err);
+    });
+  };
+}
+
 // NEW - Show Route
-app.get("/chats/:id", async (req, res, next) => {
-  try {
+app.get(
+  "/chats/:id",
+  wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     let userId = await Chat.findById(id);
     if (!userId) {
       next(new ExpressError(404, "Chat not found"));
     }
     res.render("edit.ejs", { userId });
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
 // Edit Route
-app.get("/chats/:id/edit", async (req, res, next) => {
-  try {
+app.get(
+  "/chats/:id/edit",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const userId = await Chat.findById(id);
     res.render("edit.ejs", { userId });
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
 // Update Route
-app.put("/chats/:id", async (req, res, next) => {
-  try {
+app.put(
+  "/chats/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const { msg: newMsg } = req.body;
     const updatedChat = await Chat.findByIdAndUpdate(
@@ -106,20 +115,17 @@ app.put("/chats/:id", async (req, res, next) => {
 
     console.log(updatedChat);
     res.redirect("/chats");
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
 // Delete Route
-app.delete("/chats/:id", async (req, res, next) => {
-  try {
+app.delete(
+  "/chats/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const deletedChat = await Chat.findByIdAndDelete(id, { new: true });
     console.log(deletedChat);
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
