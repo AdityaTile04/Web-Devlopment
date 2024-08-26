@@ -16,7 +16,7 @@ app.use(methodOverride("_method"));
 
 // Error handling middleware
 
-// Handling mongoose errors
+//! Handling mongoose errors
 const handleValidationErr = (err) => {
   console.log("This was a Cast error, please follow rules");
   console.log(err.message);
@@ -83,7 +83,7 @@ app.post("/chats", async (req, res, next) => {
   }
 });
 
-// using wrapAsync
+//! using wrapAsync
 
 function wrapAsync(fn) {
   return function (req, res, next) {
