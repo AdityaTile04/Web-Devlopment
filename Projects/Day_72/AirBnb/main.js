@@ -5,6 +5,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncErrorHandler = require("./utils/wrapAsync");
+const ExpressError = require("./utils/ExpressError");
 const PORT = 4000;
 
 const app = express();
@@ -54,6 +55,9 @@ app.get("/listings/:id", async (req, res) => {
 app.post(
   "/listings",
   asyncErrorHandler(async (req, res, next) => {
+    if (!req.body.listings) {
+      throw new ExpressError(400, "send valid data for listing");
+    }
     const newListings = new Listing(req.body.listing);
     await newListings.save();
     res.redirect("/listings");
@@ -61,29 +65,46 @@ app.post(
 );
 
 //Edit Route
-app.get("/listings/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit.ejs", { listing });
-});
+app.get(
+  "/listings/:id/edit",
+  asyncErrorHandler(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", { listing });
+  })
+);
 
 // Update Route
-app.put("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect("/listings");
-});
+app.put(
+  "/listings/:id",
+  asyncErrorHandler(async (req, res) => {
+    if (!req.body.listings) {
+      throw new ExpressError(400, "send valid data for listing");
+    }
+    const { id } = req.params;
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    res.redirect("/listings");
+  })
+);
 
 // Delete Route
-app.delete("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const deleteListing = await Listing.findByIdAndDelete(id);
-  console.log(deleteListing);
-  res.redirect("/listings");
+app.delete(
+  "/listings/:id",
+  asyncErrorHandler(async (req, res) => {
+    let { id } = req.params;
+    const deleteListing = await Listing.findByIdAndDelete(id);
+    console.log(deleteListing);
+    res.redirect("/listings");
+  })
+);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found!"));
 });
 
 app.use((err, req, res, next) => {
-  res.send(`Something went wrong!`);
+  const { status = 500, message = "Something Went Wrong" } = err;
+  res.status(status).send(message);
 });
 
 app.listen(PORT, (req, res) => {
