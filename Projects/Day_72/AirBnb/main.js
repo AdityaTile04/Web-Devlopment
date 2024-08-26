@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const asyncErrorHandler = require("./utils/wrapAsync");
 const PORT = 4000;
 
 const app = express();
@@ -50,11 +51,14 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 // Create Route
-app.post("/listings", async (req, res) => {
-  const newListings = new Listing(req.body.listing);
-  await newListings.save();
-  res.redirect("/listings");
-});
+app.post(
+  "/listings",
+  asyncErrorHandler(async (req, res, next) => {
+    const newListings = new Listing(req.body.listing);
+    await newListings.save();
+    res.redirect("/listings");
+  })
+);
 
 //Edit Route
 app.get("/listings/:id/edit", async (req, res) => {
@@ -76,6 +80,10 @@ app.delete("/listings/:id", async (req, res) => {
   const deleteListing = await Listing.findByIdAndDelete(id);
   console.log(deleteListing);
   res.redirect("/listings");
+});
+
+app.use((err, req, res, next) => {
+  res.send(`Something went wrong!`);
 });
 
 app.listen(PORT, (req, res) => {

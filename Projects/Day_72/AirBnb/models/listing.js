@@ -4,11 +4,9 @@ const Schema = mongoose.Schema;
 const listingSchema = new Schema({
   title: {
     type: String,
-    // required: true,
   },
   description: {
     type: String,
-    // required: true,
   },
   img: {
     type: String,
@@ -21,15 +19,12 @@ const listingSchema = new Schema({
   },
   price: {
     type: Number,
-    // required: true,
   },
   location: {
     type: String,
-    // required: true,
   },
   country: {
     type: String,
-    // required: true,
   },
 });
 
