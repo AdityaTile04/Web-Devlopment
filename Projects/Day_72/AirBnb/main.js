@@ -11,13 +11,6 @@ const PORT = 4000;
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(methodOverride("_method"));
-app.use(express.urlencoded({ extended: true }));
-app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "/public")));
-
 async function connection() {
   await mongoose.connect("mongodb://localhost:27017/AirBnb");
 }
@@ -30,9 +23,26 @@ connection()
     console.log(err);
   });
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(methodOverride("_method"));
+app.use(express.urlencoded({ extended: true }));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
+
 app.get("/", (req, res) => {
   res.send("Welcome home");
 });
+
+const validateListing = (req, res, next) => {
+  const { error } = listingSchema.validate(req.body);
+  const errMsg = error.details.map((el) => el.message).join(",");
+  if (error) {
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
 
 // Index Route
 app.get("/listings", async (req, res) => {
@@ -55,15 +65,11 @@ app.get("/listings/:id", async (req, res) => {
 // Create Route
 app.post(
   "/listings",
+  validateListing,
   asyncErrorHandler(async (req, res, next) => {
-    const result = listingSchema.validate(req.body);
     const newListings = new Listing(req.body.listing);
-    if (result.error) {
-      throw new ExpressError(400, result.error);
-    }
     await newListings.save();
     res.redirect("/listings");
-    console.log(result);
   })
 );
 
@@ -80,10 +86,8 @@ app.get(
 // Update Route
 app.put(
   "/listings/:id",
+  validateListing,
   asyncErrorHandler(async (req, res) => {
-    if (!req.body.listings) {
-      throw new ExpressError(400, "send valid data for listing");
-    }
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect("/listings");
