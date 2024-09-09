@@ -25,7 +25,7 @@ const customerSchema = new mongoose.Schema({
   name: String,
   orders: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
     },
   ],
@@ -53,16 +53,25 @@ addCustomers()
   .then(console.log("Data Added"))
   .catch((err) => console.log(err));
 
-// const addOrders = async () => {
-//   let result = await Order.insertMany([
-//     { item: "Samosa", price: 10 },
-//     { item: "Pen", price: 10 },
-//     { item: "Chocolate", price: 50 },
-//   ]);
+//! One to Many (Populate)
 
-//   console.log(result);
-// };
+const findCustomers = async () => {
+  let result = await Customer.find({}).populate("orders");
+  console.log(result[0]);
+};
 
-// addOrders()
-//   .then(() => console.log("Data Added"))
-//   .catch((err) => console.log(err));
+findCustomers();
+
+const addOrders = async () => {
+  let result = await Order.insertMany([
+    { item: "Samosa", price: 10 },
+    { item: "Pen", price: 10 },
+    { item: "Chocolate", price: 50 },
+  ]);
+
+  console.log(result);
+};
+
+addOrders()
+  .then(() => console.log("Data Added"))
+  .catch((err) => console.log(err));
