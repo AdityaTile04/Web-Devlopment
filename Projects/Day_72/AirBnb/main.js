@@ -6,7 +6,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncErrorHandler = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
-const { listingSchema } = require("./Schema");
+const { listingSchema, reviewSchema } = require("./Schema");
+const Review = require("./models/review");
 const PORT = 4000;
 
 const app = express();
@@ -34,8 +35,19 @@ app.get("/", (req, res) => {
   res.send("Welcome home");
 });
 
+// Server side Validating
 const validateListing = (req, res, next) => {
   const { error } = listingSchema.validate(req.body);
+  const errMsg = error.details.map((el) => el.message).join(",");
+  if (error) {
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   const errMsg = error.details.map((el) => el.message).join(",");
   if (error) {
     throw new ExpressError(400, errMsg);
@@ -102,6 +114,24 @@ app.delete(
     const deleteListing = await Listing.findByIdAndDelete(id);
     console.log(deleteListing);
     res.redirect("/listings");
+  })
+);
+
+//Reviews
+// Post Route
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  asyncErrorHandler(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
   })
 );
 
