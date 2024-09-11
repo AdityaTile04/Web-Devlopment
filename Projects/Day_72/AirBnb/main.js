@@ -10,6 +10,8 @@ const { listingSchema, reviewSchema } = require("./Schema");
 const Review = require("./models/review");
 const PORT = 4000;
 
+const listings = require("./routes/listing");
+
 const app = express();
 
 async function connection() {
@@ -36,15 +38,6 @@ app.get("/", (req, res) => {
 });
 
 // Server side Validating
-const validateListing = (req, res, next) => {
-  const { error } = listingSchema.validate(req.body);
-  const errMsg = error.details.map((el) => el.message).join(",");
-  if (error) {
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
 
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
@@ -56,66 +49,7 @@ const validateReview = (req, res, next) => {
   }
 };
 
-// Index Route
-app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-});
-
-// New Route
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
-});
-
-// Show Route
-app.get("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id).populate("reviews");
-  res.render("listings/show.ejs", { listing });
-});
-
-// Create Route
-app.post(
-  "/listings",
-  validateListing,
-  asyncErrorHandler(async (req, res, next) => {
-    const newListings = new Listing(req.body.listing);
-    await newListings.save();
-    res.redirect("/listings");
-  })
-);
-
-//Edit Route
-app.get(
-  "/listings/:id/edit",
-  asyncErrorHandler(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
-  })
-);
-
-// Update Route
-app.put(
-  "/listings/:id",
-  validateListing,
-  asyncErrorHandler(async (req, res) => {
-    const { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    res.redirect("/listings");
-  })
-);
-
-// Delete Route
-app.delete(
-  "/listings/:id",
-  asyncErrorHandler(async (req, res) => {
-    let { id } = req.params;
-    const deleteListing = await Listing.findByIdAndDelete(id);
-    console.log(deleteListing);
-    res.redirect("/listings");
-  })
-);
+app.use("/listings", listings);
 
 //Reviews
 // Post Route
