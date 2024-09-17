@@ -3,17 +3,7 @@ const router = express.Router({ mergeParams: true });
 const asyncErrorHandler = require("../utils/wrapAsync");
 const Listing = require("../models/listing");
 const ExpressError = require("../utils/ExpressError");
-const { reviewSchema } = require("../Schema");
-
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  const errMsg = error.details.map((el) => el.message).join(",");
-  if (error) {
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 
 //Reviews
 // Post Route
@@ -23,6 +13,7 @@ router.post(
   asyncErrorHandler(async (req, res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
+    newReview.author = req.user._id;
 
     listing.reviews.push(newReview);
 
@@ -37,6 +28,8 @@ router.post(
 
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   asyncErrorHandler(async (req, res) => {
     const { id, reviewId } = req.params;
 
