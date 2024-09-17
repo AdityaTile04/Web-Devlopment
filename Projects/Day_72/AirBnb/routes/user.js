@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const asyncErrorHandler = require("../utils/wrapAsync");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware");
 
 router.get("/signup", (req, res) => {
   res.render("users/signup.ejs");
@@ -10,7 +11,7 @@ router.get("/signup", (req, res) => {
 
 router.post(
   "/signup",
-  asyncErrorHandler(async (req, res) => {
+  asyncErrorHandler(async (req, res, next) => {
     try {
       let { username, email, password } = req.body;
       const newUser = new User({
@@ -19,8 +20,13 @@ router.post(
       });
       const registeredUser = await User.register(newUser, password);
       console.log(registeredUser);
-      req.flash("success", "user registered succesfully");
-      res.redirect("/listings");
+      req.login(registeredUser, (err) => {
+        if (err) {
+          return next(err);
+        }
+        req.flash("success", "user registered succesfully");
+        res.redirect("/listings");
+      });
     } catch (err) {
       req.flash("error", err.message);
       res.redirect("/signup");
@@ -34,14 +40,26 @@ router.get("/login", (req, res) => {
 
 router.post(
   "/login",
+  saveRedirectUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
   }),
   async (req, res) => {
     req.flash("success", "Welcome back to AirBnb");
-    res.redirect("/listings");
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    res.redirect(redirectUrl);
   }
 );
+
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "you are logged out now");
+    res.redirect("/listings");
+  });
+});
 
 module.exports = router;
