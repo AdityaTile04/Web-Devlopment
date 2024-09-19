@@ -10,22 +10,28 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
 const listingController = require("../controllers/listing");
 
-// Index Route
-router.get("/", asyncErrorHandler(listingController.indexRoute));
+router
+  .route("/")
+  .get(asyncErrorHandler(listingController.indexRoute))
+  .post(
+    isLoggedIn,
+    validateListing,
+    asyncErrorHandler(listingController.createListing)
+  );
 
 // New Route
 router.get("/new", isLoggedIn, listingController.newFormRoute);
 
-// Show Route
-router.get("/:id", asyncErrorHandler(listingController.showRoute));
-
-// Create Route
-router.post(
-  "/",
-  isLoggedIn,
-  validateListing,
-  asyncErrorHandler(listingController.createListing)
-);
+router
+  .route("/:id")
+  .get(asyncErrorHandler(listingController.showRoute))
+  .put(
+    isLoggedIn,
+    isOwner,
+    validateListing,
+    asyncErrorHandler(listingController.updateListing)
+  )
+  .delete(isLoggedIn, asyncErrorHandler(listingController.deleteRoute));
 
 //Edit Route
 router.get(
@@ -33,22 +39,6 @@ router.get(
   isLoggedIn,
   isOwner,
   asyncErrorHandler(listingController.editListing)
-);
-
-// Update Route
-router.put(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  validateListing,
-  asyncErrorHandler(listingController.updateListing)
-);
-
-// Delete Route
-router.delete(
-  "/:id",
-  isLoggedIn,
-  asyncErrorHandler(listingController.deleteRoute)
 );
 
 module.exports = router;

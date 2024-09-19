@@ -7,7 +7,7 @@ exports.renderSignupForm = (req, res) => {
 exports.signup = async (req, res, next) => {
   try {
     let { username, email, password } = req.body;
-    const newUser = new user({
+    const newUser = new User({
       email,
       username,
     });
