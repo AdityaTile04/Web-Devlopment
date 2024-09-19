@@ -10,14 +10,21 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
 const listingController = require("../controllers/listing");
 
+const multer = require("multer");
+const storage = require("../cloudConfig");
+const upload = multer({ storage });
+
 router
   .route("/")
   .get(asyncErrorHandler(listingController.indexRoute))
-  .post(
-    isLoggedIn,
-    validateListing,
-    asyncErrorHandler(listingController.createListing)
-  );
+  // .post(
+  //   isLoggedIn,
+  //   validateListing,
+  //   asyncErrorHandler(listingController.createListing)
+  // );
+  .post(upload.single("listing[image]"), (req, res) => {
+    res.send(req.file);
+  });
 
 // New Route
 router.get("/new", isLoggedIn, listingController.newFormRoute);
