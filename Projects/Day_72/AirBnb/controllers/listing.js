@@ -28,9 +28,13 @@ exports.showRoute = async (req, res) => {
 };
 
 exports.createListing = async (req, res, next) => {
+  let url = req.file.path;
+  let filename = req.file.filename;
+  console.log(url, '...', filename)
   const newListings = new Listing(req.body.listing);
   await newListings.save();
   newListings.owner = req.user._id;
+  newListings.img = {url, filename}
   req.flash("success", "New Listing Added");
   res.redirect("/listings");
 };
