@@ -33,6 +33,7 @@ router
   .put(
     isLoggedIn,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     asyncErrorHandler(listingController.updateListing)
   )
