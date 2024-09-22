@@ -1,11 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
-const asyncErrorHandler = require("../utils/wrapAsync");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware");
 
 const userController = require("../controllers/users");
+
+
+
+// Middleware to save the redirect URL
+const saveRedirectUrl = (req, res, next) => {
+  if (req.session.returnTo) {
+    res.locals.redirectUrl = req.session.returnTo;
+    delete req.session.returnTo; // Clear it after using
+  }
+  next();
+};
+
+// Async error handler utility
+const asyncErrorHandler = (fn) => {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
+};
 
 router
   .route("/signup")
