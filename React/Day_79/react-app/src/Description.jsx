@@ -1,7 +1,8 @@
 import React from "react";
 
 function Description() {
-  return <h4>This is the description</h4>;
+  let name = "Aditya"
+  return <h4>This is {name} </h4>;
 }
 
 export default Description;

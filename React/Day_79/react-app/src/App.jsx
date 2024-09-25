@@ -1,13 +1,12 @@
+import AllProjects from "./AllProjects";
 import "./App.css";
-import Title from "./Title";
-import Description from "./Description";
+import Product from "./Product";
 
 function App() {
   return (
-    <div>
-      <Title />
-      <Description />
-    </div>
+    <>
+      <AllProjects />
+    </>
   );
 }
 
