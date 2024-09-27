@@ -41,12 +41,22 @@ exports.showRoute = async (req, res) => {
 
 exports.createListing = async (req, res) => {
   try {
+    if (!req.body.listing.location) {
+      req.flash("error", "Location is required.");
+      return res.redirect("/listings/new");
+    }
+
     const response = await geocodingClient
       .forwardGeocode({
         query: req.body.listing.location,
         limit: 1,
       })
       .send();
+
+    if (!response.body.features.length) {
+      req.flash("error", "Location could not be found.");
+      return res.redirect("/listings/new");
+    }
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
@@ -57,51 +67,9 @@ exports.createListing = async (req, res) => {
     req.flash("success", "New Listing Added");
     res.redirect("/listings");
   } catch (error) {
+    console.error(error); // Log the error for debugging
     req.flash("error", "Could not create listing.");
     res.redirect("/listings/new");
-  }
-};
-
-exports.editListing = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", "Listing you requested does not exist!");
-      return res.redirect("/listings");
-    }
-
-    res.render("listings/edit.ejs", {
-      listing,
-      originalImageUrl: listing.img.url.replace("/upload", "upload/w_250"),
-    });
-  } catch (error) {
-    req.flash("error", "Could not fetch the listing for editing.");
-    res.redirect("/listings");
-  }
-};
-
-exports.updateListing = async (req, res) => {
-  const { id } = req.params;
-  try {
-    let listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", "Listing you requested does not exist!");
-      return res.redirect("/listings");
-    }
-
-    Object.assign(listing, req.body.listing); // Update with new data
-
-    if (req.file) {
-      listing.img = { url: req.file.path, filename: req.file.filename };
-    }
-
-    await listing.save();
-    req.flash("success", "Listing Updated");
-    res.redirect(`/listings/${id}`);
-  } catch (error) {
-    req.flash("error", "Could not update listing.");
-    res.redirect(`/listings/${id}/edit`);
   }
 };
 
