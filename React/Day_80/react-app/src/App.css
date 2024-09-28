@@ -1,0 +1,17 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.Product {
+  width: 200px;
+
+  border: 1px solid white;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 1rem;
+  background-color: white;
+  color: blue;
+}
