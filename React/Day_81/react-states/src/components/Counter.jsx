@@ -2,10 +2,16 @@ import React from "react";
 import { useState } from "react";
 
 function Counter() {
-  let [count, setCount] = useState(0);
+  function init() {
+    return Math.random();
+  }
+
+  let [count, setCount] = useState(init);
 
   function incCounter() {
-    setCount((count += 1));
+    setCount((currCount) => {
+      return (currCount += 1);
+    });
   }
 
   return (

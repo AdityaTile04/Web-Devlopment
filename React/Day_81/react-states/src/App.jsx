@@ -6,7 +6,7 @@ import LikeButton from "./components/LikeButton";
 function App() {
   return (
     <div>
-      {/* <Counter /> */}
+      <Counter />
       <LikeButton />
     </div>
   );
