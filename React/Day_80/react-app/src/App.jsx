@@ -1,11 +1,11 @@
-
 import AllProducts from "./AllProducts";
 
 function App() {
   return (
-    <div>
+    <>
+      <h2 className="heading">Blockbuster Deals</h2>
       <AllProducts />
-    </div>
+    </>
   );
 }
 
