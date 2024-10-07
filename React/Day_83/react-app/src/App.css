@@ -1,0 +1,13 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.ticket > span {
+  border: 10px solid white;
+  background-color: white;
+  color: black;
+  font-weight: bolder;
+}
