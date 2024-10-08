@@ -11,3 +11,14 @@
   color: black;
   font-weight: bolder;
 }
+
+.TicketNum {
+  font-size: 3rem;
+}
+
+.Ticket {
+  border: 1px solid white;
+  border-radius: 20px;
+  width: 300px;
+  margin-bottom: 20px;
+}
