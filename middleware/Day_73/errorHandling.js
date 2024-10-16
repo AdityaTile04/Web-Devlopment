@@ -1,4 +1,4 @@
-//! Error Handling (Express Default)
+// Error Handling (Express Default)
 
 const express = require("express");
 const app = express();
