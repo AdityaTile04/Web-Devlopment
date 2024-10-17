@@ -1,4 +1,4 @@
-//! Express Router
+// Express Router
 // Express Routers are a way to organize express application such that our primary app.js file does not become bloated.
 
 const express = require("express");
