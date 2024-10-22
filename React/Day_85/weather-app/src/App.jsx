@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import SearchBox from "./components/SearchBox";
+import WeatherApp from "./components/WeatherApp";
 
 function App() {
   return (
     <div>
-      <SearchBox />
+      <WeatherApp />
     </div>
   );
 }
