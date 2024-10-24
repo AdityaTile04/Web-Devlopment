@@ -3,16 +3,36 @@ import React from "react";
 function Demo() {
   return (
     <div>
-      <h1 className="text-red-700">Hello</h1>
-      <p className="text-yellow-500 border rounded-lg bg-red-50 my-4">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni,
-        aspernatur quas reiciendis dolore repellat facilis perspiciatis ad
-        commodi nemo voluptas tenetur voluptatem, excepturi nobis alias!
-        Aspernatur aliquam ducimus quas! Cumque voluptatum, tempore quisquam
-        saepe pariatur atque omnis doloribus nulla. Dolor voluptatem
-        voluptatibus rerum error. Doloremque reprehenderit labore pariatur
-        repudiandae iure!
+      {/* Typography */}
+      {/* font-family */}
+      <p className="font-sans">This is a paragraph</p>
+      <p className="font-serif">This is a paragraph</p>
+      <p className="font-mono">This is a paragraph</p>
+      <hr /> <hr />
+      {/* font-size */}
+      <p className="text-xs">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, voluptas.
       </p>
+      <p className="text-sm">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, voluptas.
+      </p>
+      <p className="text-base">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, voluptas.
+      </p>
+      <p className="text-lg">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, voluptas.
+      </p>
+      <p className="text-xl">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, voluptas.
+      </p>
+      <p className="text-2xl italic tracking-tight text-left">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
+        quasi.
+      </p>
+      <hr /> <hr />
+      <hr />
+      {/* Sizing */}
+      <div className="bg-red-500 w-[200px] h-[200px]">This is a div</div>
     </div>
   );
 }
