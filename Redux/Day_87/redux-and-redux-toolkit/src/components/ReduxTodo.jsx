@@ -16,7 +16,7 @@ function ReduxTodo() {
   return (
     <>
       <AddForm />
-      <h2>Todos</h2>
+      <h2>Add Todo</h2>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
