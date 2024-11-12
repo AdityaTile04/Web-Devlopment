@@ -22,6 +22,7 @@ console.log(num);
 console.log(num);
 console.log(num);
 console.log(num);
+console.log("this is the example of variables in javascript")
 
 
 // In this above code a is the variable and 10 is the value store in the variable
