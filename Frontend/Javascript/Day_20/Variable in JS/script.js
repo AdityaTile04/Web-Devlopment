@@ -12,6 +12,7 @@ num2 = 200;
 n = 2;
 a= b;
 console.log(a);
+console.log(b);
 
 
 // In this above code a is the variable and 10 is the value store in the variable
