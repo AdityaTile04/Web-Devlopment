@@ -17,6 +17,7 @@ console.log(c);
 console.log(d);
 console.log(name);
 console.log(num);
+console.log(num);
 
 
 // In this above code a is the variable and 10 is the value store in the variable
