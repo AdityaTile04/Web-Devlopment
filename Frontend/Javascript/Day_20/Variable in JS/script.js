@@ -10,6 +10,7 @@ name = "Aditya";
 num = 200;
 num2 = 200;
 n = 2;
+a= b;
 
 
 // In this above code a is the variable and 10 is the value store in the variable
