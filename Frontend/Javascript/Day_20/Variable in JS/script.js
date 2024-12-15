@@ -8,6 +8,7 @@ c = 10;
 d = 100;
 name = "Aditya";
 num = 200;
+num2 = 200;
 
 
 // In this above code a is the variable and 10 is the value store in the variable
