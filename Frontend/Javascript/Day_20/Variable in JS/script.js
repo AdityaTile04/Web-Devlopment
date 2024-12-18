@@ -5,6 +5,7 @@
 a = 10;
 b = 20;
 c = 10;
+d = 100;
 
 
 // In this above code a is the variable and 10 is the value store in the variable
